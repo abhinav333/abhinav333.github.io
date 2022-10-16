@@ -182,7 +182,7 @@ audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
 /* Prevents modern browsers from displaying 'audio' without controls */
 audio:not([controls]) { display: none; }
 
-a { color: red; }
+a { color: #2f7d95; }
 
 /* Apply focus state */
 /* Remove outline from links */
@@ -263,9 +263,9 @@ blockquote cite { font-style: italic; }
 blockquote cite:before { content: "\2014"; padding-right: 5px; }
 
 /* links */
-a:visited { color: #ff2626; }
+a:visited { color: #4e91a5; }
 
-a:hover { color: #bf0000; outline: 0; }
+a:hover { color: #235e70; outline: 0; }
 
 /* buttons */
 /* code */
@@ -308,7 +308,7 @@ figcaption { margin-bottom: 0.5em; color: #646769; font-family: Georgia, Times, 
 
 figcaption a { -webkit-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; }
 
-figcaption a:hover { color: #bf0000; }
+figcaption a:hover { color: #235e70; }
 
 /* Fix IE9 SVG bug */
 svg:not(:root) { overflow: hidden; }
@@ -725,7 +725,7 @@ tr, td, th { vertical-align: middle; }
 
 .pagination li a { display: block; margin-bottom: 0.25em; padding: 0.5em 1em; font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif; font-size: 14px; font-weight: bold; line-height: 1.5; text-align: center; text-decoration: none; color: #646769; border: 1px solid #b6b6b6; border-radius: 0; }
 
-.pagination li a:hover { color: #bf0000; }
+.pagination li a:hover { color: #235e70; }
 
 .pagination li a.current, .pagination li a.current.disabled { color: #fff; background: #6f777d; }
 
@@ -1360,7 +1360,7 @@ body { display: -webkit-box; display: -ms-flexbox; display: flex; min-height: 10
 
 .page__taxonomy-item { display: inline-block; margin-right: 5px; margin-bottom: 8px; padding: 5px 10px; text-decoration: none; border: 1px solid #b6b6b6; border-radius: 4px; }
 
-.page__taxonomy-item:hover { text-decoration: none; color: #bf0000; }
+.page__taxonomy-item:hover { text-decoration: none; color: #235e70; }
 
 .taxonomy__section { margin-bottom: 2em; padding-bottom: 1em; }
 

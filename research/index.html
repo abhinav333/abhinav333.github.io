@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Projects - Abhinav Kulkarni</title>
+<!-- begin _includes/seo.html --><title>  Abhinav Kulkarni</title>
 <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
 
 
@@ -17,8 +17,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Abhinav Kulkarni">
-<meta property="og:title" content="Projects">
-<meta property="og:url" content="http://localhost:4000/projects/">
+<meta property="og:title" content="Abhinav Kulkarni">
+<meta property="og:url" content="http://localhost:4000/research/">
 
 
   <meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
@@ -34,7 +34,7 @@
 
 
 
-<link rel="canonical" href="http://localhost:4000/projects/">
+<link rel="canonical" href="http://localhost:4000/research/">
 
 
 
@@ -110,11 +110,13 @@
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/projects/">Projects</a>
+              <a href="/publications/">Publications</a>
+            </li><li class="masthead__menu-item">
+              <a href="/research/">Research</a>
             </li><li class="masthead__menu-item">
               <a href="/categories/">Blog</a>
             </li><li class="masthead__menu-item">
-              <a href="/publications/">Publications</a>
+              <a href="/resources/">Resources</a>
             </li></ul>
         
         <button class="greedy-nav__toggle hidden" type="button">
@@ -166,26 +168,14 @@
     <ul class="author__urls social-icons">
       
         <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
-          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Somewhere</span>
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Trois-Rivières, QC, Canada</span>
         </li>
       
 
       
         
           
-            <li><a href="https://mademistakes.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Made Mistakes</span></a></li>
-          
-        
-          
-            <li><a href="https://twitter.com/mmistakes" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
-          
-        
-          
-            <li><a href="https://github.com/mmistakes" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
-          
-        
-          
-            <li><a href="https://instagram.com/mmistakes" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+            <li><a href="https://github.com/abhinav333" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
           
         
       
@@ -255,7 +245,7 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Projects">
+    <meta itemprop="headline" content="">
     
     
     
@@ -263,7 +253,7 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Projects
+          <h1 id="page-title" class="page__title" itemprop="headline">
 </h1>
           
 
@@ -273,7 +263,28 @@
 
       <section class="page__content" itemprop="text">
         
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#approximate-computing-for-mimo-detection">Approximate Computing for MIMO detection</a></li><li><a href="#improving-accuracy-of-superpixel-segmentation-using-colour-histogram-based-seed-initialization">Improving Accuracy of Superpixel Segmentation using Colour Histogram based Seed Initialization</a></li><li><a href="#braille-ebook-reading-device">Braille ebook reading device</a></li></ul>
+
+            </nav>
+          </aside>
         
+        <h2 id="approximate-computing-for-mimo-detection">Approximate Computing for MIMO detection</h2>
+<p><strong>Facility</strong>: LSSI Lab, UQTR, QC , Canada</p>
+
+<h2 id="improving-accuracy-of-superpixel-segmentation-using-colour-histogram-based-seed-initialization">Improving Accuracy of Superpixel Segmentation using Colour Histogram based Seed Initialization</h2>
+<p>Superpixels are perceptually meaningful segments of an image formed by grouping several image pixels together based on a common property (e.g. colour). They provide high-level abstraction of the raw image which can be exploited for accelerating computer vision applications. Applications that have been shown to benefit from superpixels include object recognition, 3D image reconstruction, medical analysis etc.
+The well-known SLIC (Super Linear Iterative Clustering) algorithm for superpixel segmentation does not take into account content sensitivity i.e. it does not form initial clusters (seeds) based on colour or spatial information available in the raw image. This is a limitation as the accuracy of superpixel segmentation is dependent on the distribution of initial cluster centres on the raw image.
+In this work, we propose the Histogram SLIC algorithm to improve the accuracy of SLIC algorithm by using colour histogram to induce colour sensitivity during the seed initialization. The quantized colour histogram captures the localized colour profiles within uniform grids in the raw image. The quality of the initial seeding can be controlled by user defined parameters such as histogram suppression window and the maximum seeds per grid box. As a post-processing step, label enforcement of erroneous pixels is implemented over the superpixel segmented image. This processing is essential since superpixels need to be continuous and should not form fragmented minute superpixels. Enforcement can be achieved by asserting a pixel with a particular cluster label based on the majority labels surrounding it.</p>
+
+<p><a href="https://github.com/abhinav333/improved_slic">Github</a></p>
+
+<h2 id="braille-ebook-reading-device">Braille ebook reading device</h2>
+
+<p><a href="https://github.com/abhinav333/BRAILLE_READER">Github</a> <a href="https://ieeexplore.ieee.org/abstract/document/7155900">Paper</a></p>
+
 
         
       </section>

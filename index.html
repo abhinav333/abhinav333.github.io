@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Abhinav Kulkarni">
 <meta property="og:title" content="Abhinav Kulkarni">
-<meta property="og:url" content="/">
+<meta property="og:url" content="http://localhost:4000/index">
 
 
   <meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
@@ -34,7 +34,7 @@
 
 
 
-<link rel="canonical" href="/">
+<link rel="canonical" href="http://localhost:4000/index">
 
 
 
@@ -45,7 +45,7 @@
     
       "@type": "Person",
       "name": null,
-      "url": "/"
+      "url": "http://localhost:4000/"
     
   }
 </script>
@@ -85,7 +85,7 @@
 
   </head>
 
-  <body class="layout--home">
+  <body class="layout--single">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -242,165 +242,69 @@
 
 
 
-  <div class="archive">
-    
-      <h1 id="page-title" class="page__title"></h1>
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     
     
-
-
-<h3 class="archive__subtitle">Recent Posts</h3>
-
-
-
-
-<div class="entries-list">
-  
+    
     
 
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
+    <div class="page__inner-wrap">
       
-        <a href="/embedded%20systems/2020/08/28/sd-card-3.html" rel="permalink">Interfacing SD with AVR: Part 3
-</a>
-      
-    </h2>
-    
+        <header>
+          
+          
 
-  <p class="page__meta">
-    
+
+        </header>
       
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+
+      <section class="page__content" itemprop="text">
         
-        <time datetime="2020-08-28T00:00:00-04:00">August 28, 2020</time>
-      </span>
-    
+        <p>I maintain an active interest in embedded systems and DSP. Through project work, I am well acquainted with working on AVR/TI microcontrollers, ZYNQ 7000 based prototyping and Raspberry Pi platform. Also, I have proficiency working with Vivado toolchain, Micrium uC/OS III,  MATLAB, Eagle CAD, Multisim ,NG SPICE and embedded linux. With good expertise in C, C++ , VHDL and Python programming, I am also adept in web designing.  Research interests: Parallel and distributed computing, heterogeneous computing systems, baseband signal processing, computer vision and IoT.  Above all, I am a problem solver and very enthusiastic to work on next generation embedded system solutions.</p>
 
-    <span class="page__meta-sep"></span>
+<h3 id="research">Research</h3>
 
-    
-      
-      
+<h2 id="approximate-computing-for-mimo-detection">Approximate Computing for MIMO detection</h2>
+<p><strong>Facility</strong>: LSSI Lab, UQTR, QC , Canada</p>
 
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+<h2 id="improving-accuracy-of-superpixel-segmentation-using-colour-histogram-based-seed-initialization">Improving Accuracy of Superpixel Segmentation using Colour Histogram based Seed Initialization</h2>
+<p>Superpixels are perceptually meaningful segments of an image formed by grouping several image pixels together based on a common property (e.g. colour). They provide high-level abstraction of the raw image which can be exploited for accelerating computer vision applications. Applications that have been shown to benefit from superpixels include object recognition, 3D image reconstruction, medical analysis etc.
+The well-known SLIC (Super Linear Iterative Clustering) algorithm for superpixel segmentation does not take into account content sensitivity i.e. it does not form initial clusters (seeds) based on colour or spatial information available in the raw image. This is a limitation as the accuracy of superpixel segmentation is dependent on the distribution of initial cluster centres on the raw image.
+In this work, we propose the Histogram SLIC algorithm to improve the accuracy of SLIC algorithm by using colour histogram to induce colour sensitivity during the seed initialization. The quantized colour histogram captures the localized colour profiles within uniform grids in the raw image. The quality of the initial seeding can be controlled by user defined parameters such as histogram suppression window and the maximum seeds per grid box. As a post-processing step, label enforcement of erroneous pixels is implemented over the superpixel segmented image. This processing is essential since superpixels need to be continuous and should not form fragmented minute superpixels. Enforcement can be achieved by asserting a pixel with a particular cluster label based on the majority labels surrounding it.</p>
+
+<p><a href="https://github.com/abhinav333/improved_slic">Github</a></p>
+
+<h2 id="braille-ebook-reading-device">Braille ebook reading device</h2>
+
+<iframe width="640" height="390" src="https://www.youtube.com/embed/ykSUDEuPtdw" frameborder="0" allowfullscreen=""></iframe>
+<p><a href="https://github.com/abhinav333/BRAILLE_READER">Github</a> <a href="https://ieeexplore.ieee.org/abstract/document/7155900">Paper</a></p>
+
+
         
-          2 minute read
+      </section>
+
+      <footer class="page__meta">
         
-      </span>
+        
+
+
+        
+
+
+      </footer>
+
+      
+
+      
+    </div>
+
     
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Data on storage media  is organised using filesytem. Computer operating system is able to access contents of the storage media via filesystem. We will use Fa...</p>
   </article>
-</div>
 
   
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/embedded%20systems/2014/11/12/sd-card-2.html" rel="permalink">Interfacing SD with AVR: Part 2
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2014-11-12T00:00:00-05:00">November 12, 2014</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">In this part of the tutorial, we will see how SD-Card is wired with ATMEGA16. SD-Card requires a 3.3 V supply, so we will first make a circuit for the same p...</p>
-  </article>
-</div>
-
-  
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/embedded%20systems/2014/09/30/sd-card-1.html" rel="permalink">Interfacing SD with AVR: Part 1
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2014-09-30T00:00:00-04:00">September 30, 2014</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">This is the first part in the tutorial series which will guide you to use a SD Card for your projects with AVR ATMEGA. Secure Disk Card (SDC) is a versatile ...</p>
-  </article>
-</div>
-
   
 </div>
 
-
-
-
-  </div>
-</div>
     </div>
 
     

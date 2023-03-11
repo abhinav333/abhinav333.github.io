@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>http://localhost:4000/embedded%20systems/2014/09/30/sd-card-1.html</loc>
+<lastmod>2014-09-30T00:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/embedded%20systems/2014/11/12/sd-card-2.html</loc>
+<lastmod>2014-11-12T00:00:00-05:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/embedded%20systems/2020/08/28/sd-card-3.html</loc>
+<lastmod>2020-08-28T00:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/about/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/categories/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/publications/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/resources/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/resume/</loc>
+</url>
+</urlset>

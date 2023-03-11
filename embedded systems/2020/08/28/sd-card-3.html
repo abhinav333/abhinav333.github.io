@@ -1,0 +1,412 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Interfacing SD with AVR: Part 3 - Abhinav Kulkarni</title>
+<meta name="description" content="Data on storage media  is organised using filesytem. Computer operating system is able to access contents of the storage media via filesystem. We will use Fat Allocation Table (FAT) to format our SD Card. Additional information on FAT file system is available online [1]. To access contents on SDC with FAT on MCU, we need an external C library FATFs, which abstracts low-level commands for handling SDC transactions. However, for tiny 8-bit MCU like Atmega16, we can use Petit FATFs (variant of FATFs) with smaller code footprint and lesser functionality. ">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Abhinav Kulkarni">
+<meta property="og:title" content="Interfacing SD with AVR: Part 3">
+<meta property="og:url" content="http://localhost:4000/embedded%20systems/2020/08/28/sd-card-3.html">
+
+
+  <meta property="og:description" content="Data on storage media  is organised using filesytem. Computer operating system is able to access contents of the storage media via filesystem. We will use Fat Allocation Table (FAT) to format our SD Card. Additional information on FAT file system is available online [1]. To access contents on SDC with FAT on MCU, we need an external C library FATFs, which abstracts low-level commands for handling SDC transactions. However, for tiny 8-bit MCU like Atmega16, we can use Petit FATFs (variant of FATFs) with smaller code footprint and lesser functionality. ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-08-28T00:00:00-04:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/embedded%20systems/2020/08/28/sd-card-3.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Abhinav Kulkarni Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Abhinav Kulkarni
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/publications/">Publications</a>
+            </li><li class="masthead__menu-item">
+              <a href="/resume/">Resume</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/resources/">Resources</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/oogway.jpg" alt="" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name"></h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Curious researcher. Contributing towards science.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Trois-Rivières, QC, Canada</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/abhinav333" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Interfacing SD with AVR: Part 3">
+    <meta itemprop="description" content="Data on storage media  is organised using filesytem. Computer operating system is able to access contents of the storage media via filesystem. We will use Fat Allocation Table (FAT) to format our SD Card. Additional information on FAT file system is available online [1]. To access contents on SDC with FAT on MCU, we need an external C library FATFs, which abstracts low-level commands for handling SDC transactions. However, for tiny 8-bit MCU like Atmega16, we can use Petit FATFs (variant of FATFs) with smaller code footprint and lesser functionality. ">
+    <meta itemprop="datePublished" content="2020-08-28T00:00:00-04:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Interfacing SD with AVR: Part 3
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-08-28T00:00:00-04:00">August 28, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>Data on storage media  is organised using filesytem. Computer operating system is able to access contents of the storage media via filesystem. We will use Fat Allocation Table (FAT) to format our SD Card. Additional information on FAT file system is available online [1]. To access contents on SDC with FAT on MCU, we need an external C library FATFs, which abstracts low-level commands for handling SDC transactions. However, for tiny 8-bit MCU like Atmega16, we can use Petit FATFs (variant of FATFs) with smaller code footprint and lesser functionality. </p>
+
+<p>We know from tutorial 1 that MCU and SDC fundamentally communicates using SPI protocol (SDC has internal MCU which communicates with Atmega16). Functioning of Petit FATfs can be organized into 3 level hierarchy as shown in Fig 1.  The lower level is MCU dependent and handles SPI transactions. Middle level handles disk I/O functions as per MMC/SD standard protocol. The highest layer handles the application interface for Petit FATfs.</p>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAk8AAAGHCAYAAACplLYqAAAEknRFWHRteGZpbGUAJTNDbXhmaWxlJTIwaG9zdCUzRCUyMmFwcC5kaWFncmFtcy5uZXQlMjIlMjBtb2RpZmllZCUzRCUyMjIwMjAtMDgtMjhUMTglM0E0NyUzQTQxLjI5NVolMjIlMjBhZ2VudCUzRCUyMjUuMCUyMChXaW5kb3dzKSUyMiUyMGV0YWclM0QlMjJESE80Vm5ybHBoUnFRRk5PdkZsbyUyMiUyMHZlcnNpb24lM0QlMjIxMy42LjUlMjIlMjB0eXBlJTNEJTIyZGV2aWNlJTIyJTNFJTNDZGlhZ3JhbSUyMGlkJTNEJTIyWFlTMFVpTGRQUGs2d3g4U04ta0IlMjIlMjBuYW1lJTNEJTIyUGFnZS0xJTIyJTNFNVpmSmJ0c3dFSWFmUnNjYXNoWmJQc1pMMGdJSlVNQW9taDVwa1pJWVV4cUJvaGYxNlV0YUkwdUsxNlpKa1NDQUQlMkJRJTJGdyUyQjBmZm9Sc3VaTjBleWRKbmp3QVpjSnliTHExM0tubE9IM1BjU3p6czJsWktjTlJ2eEppeVNrbU5jS2MlMkYyWW8ycWl1T0dWRkoxRUJDTVh6cmhoQ2xyRlFkVFFpSld5NmFSR0k3cW81aWRtQk1BJTJCSk9GUiUyRmNxcVNTZzE4dTlHJTJGTWg0bjljcDlHeU1wcVpOUktCSkNZZE9TM0pubFRpU0FxbHJwZHNLRU1hJTJGMnBScDNleUs2MzVoa21icG1nR3NIVTFqS2IlMkZUUkd3MiUyQmUzNzJ4SDk4d2Vxc2lWamhnVlBDczE2SVcxWmw3WU9FVlVhWm1hcHZ1ZU5Od2hXYjV5UTAwWTJ1dk5ZU2xRb01SMXlJQ1FpUXU3RXVKU3lJUXEwWFNzS1N0U0tETUdDTFNFY09ENFBuV3pPcDJMWWw0ZUh1R0tSTXlWS243TzhhR28wM3JWOGJ2Mm5xNW85UVMxbzFHNkJHOEtyRSUyQjZrYk4zVUREZjBMYzRjSExqS3FMeGQyUWFvRVlzaUltRFhxdVBIWjFyMG01eDRnUjNlZm1GSWxra0pXQ3JyZWF3TmwlMkJXakc5JTJGeTYlMkI2c2RtMjV4OHFwWFl1OWtCUXBZeVpDZE9hYUhXQklaTTNYNXJoa1B6dFpUTWtFVVgzY0JmUFhpZUFjMzMzSUdRdTklMkZUUGxhTjJPMU02V1NGclZ3ayUyQmVDaDNwN2tPbkJncTNOYzFmbDZGMHNubyUyRlQycEhaV3RJdEYlMkJaMXV6SFdSMUZvd0p0VTdWNnliJTJCcTNMVElSM0l1OHRNcSUyRm9Qc0tJRHJETG9qT0VSQmQ5MyUyQkNPUGdjSVBwWGd1aTlLeEQ5RjRINHdDblZkYnFDd2N1OG5LTXlUWGRRMmhXTWxCZExEZ2JORDBIZW5ySkw1QTNmaXJ6UjV5QXZ1Skk4JTJGMTJSRjV3a2J3JTJGUnZmNWlmUkZqeDJrcWN2NWg0UEc4dDROSGQ1c1AlMkYxMnM5ZmZKbmYwQiUzQyUyRmRpYWdyYW0lM0UlM0MlMkZteGZpbGUlM0U0gl55AAAgAElEQVR4nO3d3W9c530n8INcUAVKXgk2DPkFvhCqXswfoYu9WRiwidxJMmE5MJoAiRG6ciJngV4kF5bgF6b1JpCV2rVhaq14Wdgw4iZdq41jpw6IJLVS7DpQzcJpEnqdm+12RUhwVIffvXAf9nA0w5mhXs4j6fMBvoDImTPzcPz4xy/ODGeaDPBvH6/n1E9+lWdfezePHHs7T750Ol9YeENE5KrliZPvdL4GEbmx8uRLp/PIsbfz7F/9PH/zk1/l49+tD6pJafq/8YN3VvPHT72V5/76vfzdz/9ffvaL83nvNx+LiIiIXPf52S/O54fv/t8897338sU//UHe/Nnq1uXpxP84k79865edL1xERESkhiy9+cu89Lcrg8vTidf/MSe//4vOFykiIiJSU1782/dz8tQ/bi5P339nNX/51j93vjgRERGRGrP01i/z5ulPnsJr/u3j9fzxf32r80WJiIiI1Jz5P3sz6+tJc+onv8pzf73S+YJEREREas6z330v3//7X6d55rV383fv/mvnCxIRERGpOT9891/zF6+9m+bwsbe9HYGIiIjIiJx+/3y+8vTbaZ749unOFyMiIiJyLeSJb7+T5gsLb3S+EBEREZFrIV9YeEN5EhERERk3ypOIiIjIBFGeRERERCaI8iQiIiIyQZQnERERkQmiPImIiIhMEOVJREREZIIoTyIiIiITRHkSERERmSDKk4iIiMgEUZ5EREREJojyJCIiIjJBlCcRERGRCaI8iYiIiEwQ5UlERERkgihPIlJtfnj6l2maJkvffbvztYiIlChPIiIiIhNEeRKRK5KmafKVrz6RpmnSNE0O/tEX89Sfv7Tx9Ve++sTGddvfL9d97zebzzyVfx/8oy8OvI1B91/S9WMhItdXlCcRuSJpl6Cl77696etSltrXLU/Nlct+ePqXQ8vToNto5w/+sJen/vylvPebj/OVrz6xcYyIyOWI8iQiVyT9r1Vqf12KUClI7eP6L+svT+X6/V+XlKLWf5tdPx4icv1EeRKRK5Jxy9N7v/l409N7JZezPImIXM4oTyJyRTJueSplZ1ApUp5EpMYoTyJyRTJpeSrX+0//+Z5LKk/99/WVrz6RP/jDXuePh4hcP1GeROSKZJKn7UphapomT/35Sxsv+B63PJV/l/sqX/trOxG5ElGeRERERCaI8iQiIiIyQZQnERERkQmiPImIiIhMEOVJREREZIIoTyIiIiITRHkSERERmSDKk4iIiMgEUZ5EREREJojyJCIiIjJBlCcRERGRCaI8iYiIiEwQ5UlERERkgihPIiIiIhNEeRIRERGZIMqTiIiIyAT5wsIbaZ749judL0RERETkWsgT3z6d5vCxt/OzX5zvfDEiIiIiNef0++fzlaffTvPsaz/PD9/9184XJCIiIlJz3nr3X/LcX/08zd/85Fd57nvvdb4gERERkZrz7Hffy/f//tdpPv7der74pz/ofEEiIiIiNefBhTeynqRJkh+cXs1fvvnPnS9KREREpMYsvfnPeesfPkhKeUqSl/52Jf/tb97vfHEiIiIiNeXEqfez9MY/lcr0H+UpSU6e+sf89x/8svNFioiIiNSQl37wiyx9/5/adWlzeUqSN0+vZv7P3sxffO+9vPW//iXvvH+u84WLiIiIXI288/65vPk//0/+4nvv5cGFN/LDf/jf/VXp4vKUJOvryff//td57rs/z385/nae/PbpfGHhDRGRq5YnTr7T+RpE5MbKE98+nf9y/O0891c/zxvv/Drrg0rSsPIE0KULFy5k//79uXDhQtdLAbiI8gRU5+jRo5mamsqRI0e6XgrARZQnoDo7duxI0zTZsWNH10sBuIjyBFTl6NGjm8qTs09AbZQnoCqlOJU4+wTURnkCqnHkyJGN8jQzM7NRnh599NGulwawQXkCqjE1NZWbbropt956a5qmya5du3LzzTdnamqq66UBbFCegCqcOnUqO3fuzOLiYpKkaT4ZT4uLi9m5c2def/31LpcHsEF5AqpUyhNAbUwnoErKE1Ar0wmokvIE1Mp0AqqkPAG1Mp2AKilPQK1MJ6BKyhNQK9MJqJLyBNTKdAKqpDwBtTKdgCopT0CtTCegSsoTUCvTCaiS8gTUynQCqqQ8AbUynYAqKU9ArUwnoErKE1Ar0wmokvIE1Mp0AqqkPAG1Mp2AKilPQK1MJ6BKyhNQK9MJqJLyBNTKdAKqpDwBtTKdgCopT0CtTCegSsoTUCvTCaiS8gTUynQCqqQ8AbUynYAqKU9ArUwnoErKE1Ar0wmokvIE1Mp0AqqkPAG1Mp2AKilPQK1MJ6BKyhNQK9MJqJLyBNTKdGKojz76KI899lj27duXW265JXv37k3TNCIi11327t2bW265JQcOHMjjjz+e3/72t12PYCqmPDHQU089ld///d/Pl770pfz0pz/Nhx9+2PWSAK6oDz/8MD/+8Y/z8MMPZ2pqKt/4xje6XhKVUp64yGc/+9ksLCx0vQyATj355JN58MEHu14GFVKe2OSzn/1sHn300a6XAVCFr33ta/n85z/f9TKojPLEhqeeesoZJ4A+jz/+eL75zW92vQwqojyR5JMXh09PT3e9DIAq7dixIx9//HHXy6ASyhNJksceeyxf+tKXul4GQJUeeughZ+bZoDyRJNm/f39++tOfdr0MgCotLy9nbm6u62VQCeWJJMktt9zi7QgAhvjggw+ya9eurpdBJZQnkiR79+7tegkAVTMnKZQnkvgoDIBRzEkKO4EkhgLAKOYkhZ1AEkMBYBRzksJOIImhADCKOUlhJ5DEUAAYxZyksBNIYigAjGJOUtgJJDEUAEYxJynsBJIYCgCjmJMUdgJJDIUbwerqapqmSa/Xuyy3t7y8nKZpsrS0tOnfl7rG2dnZi27/crjct3e1bpt6mJMUdgJJDIUbwcLCQpqmSdM0WV5evuTbuxKFoWmajfJ0uSlPXCpzksJOIImhcCOYnZ3N7OxsmqbJ/Pz8xvfLL/75+fmNclU+PX6cywadeSpnufqPSTaXuPZlvV5v43u9Xm/kbZYCuNUa2/pvr3xdsrq6urGOdoFrP17DjlGebgzmJIWdQBJD4XpXisfS0lLm5+c3PXVXfvGXwlDKzfLy8liXDSpP7cKxtLS0cVlZRykdpfAU7ftq32Y5rtxmOW51dfWiNZaC2G/Q7ZWS1V7HoNsedYzydGMwJynsBJIYCte7UnpWV1c3ykz/mZv+MzwLCwtjX9b+d//tD1Ku038GZ1h5ape2YesYVGraBt3eoDNHg67X/xhudQzXL3OSwk4giaFwvev1epvONg16Kqq/IM3Pz4992VZFp639tFey+SxPWddW5alcb9A6+stTuW7/fbdvrz/lNso6ZmdnNx6nrY5Rnm4M5iSFnUASQ+F61v9aoXaSXFQ+tjqrM8mZp0FFor8ETVqeJjnzNE556r9OUW6j1+tt/BxbHaM83RjMSQo7gSSGwvVs0JmgQa9dKmemJr1s2Gue+kvQwsLCxvHt641TnsZ5zdMk5Wmr22tft/3/xThrUJ6ub+YkhZ1AEkPhelb+iq2t/Rdq7fLR//TVOJeN89d27b/ua/9VXXlxdyl27b+YG3Wb/UVnkvLU/rp9f23tItd/G/3HKE83BnOSwk4giaFwI9vqF79SAP/BnKSwE0hiKNzIlCcYjzlJYSeQxFAAGMWcpLATSGIoAIxiTlLYCSQxFABGMScp7ASSGAoAo5iTFHYCSQyFrgx7A8v2exEtLy9v+vfV1v4w4UEfLFzLOvo/N+9q3OeVuB/qZU5S2AkkMRS6Mu4v/C7LU3tvdLlPRq3jSpSnq/Wz+//v2uC/E4WdQBJDoStb/cIfdeZp0BtGJhd/Blv/m0wOu5/2cf3vAN6fso7294YZ5zqXuo5hx5c3zrwS9zns5xp03fa7k/evbas36pzk8ePK89+Awk4giaHQle2Wp16vt/HLt3yWXPuY/tsYZw39H4vS/siUdmFor6H9uW+DnnIa5zqXuo7+48t9tB+Xq/WzD/rvsrq6OnJtw4rTJI8fV545SWEnkMRQ6Mqg1zyVX+TDylP5Bd9Wfslu56mrQWe1ZmdnN50Z6S8Qg9Yw7ONQtrrOpa5j0PHlPsZ5LC7nzz7o/ob9d+n/etDPM+njx5VnTlLYCSQxFLqynTNP/Z+v1v80UP/lo94dfNAatlMg+o1znUtdx1bHT1KeLsfPPuj75bYuV3miW/57UNgJJDEUurLd8tTr9S759gfdT9F+uuhql6dJ1rHVz3q1f/arceaJbvnvQWEnkMRQ6MqlvOap/IIvv2SXl5eztLS0qVhN8pqn8nqacV/30/73wsLCwEI3znUudR39x2+nPF2un33Ua54mKU+TPn5ceeYkhZ1AEkOhK5frr+3aT821/6Krfcyov7ZrH9d/P4NKQ//rtQbdxzjXuZR1tG9rq4JyNX72Qf9d+q8/qjyN8/jRHf8NKOwEkhgKN7LtvMj8Ug36q7ErvY4u7pPrizlJYSeQxFC4kSlPyhPjMScp7ASSGAoAo5iTFHYCSQwFgFHMSQo7gSSGAsAo5iSFnUASQwFgFHOSwk4giaEAMIo5SWEnkMRQABjFnKSwE0hiKACMYk5S2AkkSfbu3dv1EgCqZk5SKE8kSW655ZZ8+OGHXS8DoEoffPBBdu3a1fUyqITyRJJk//79+fGPf9z1MgCq9KMf/Sj33ntv18ugEsoTSZLHH388Dz/8cNfLAKjS/Px8vv71r3e9DCqhPJEk+e1vf5upqamulwFQpU996lP53e9+1/UyqITyxIZvfOMbefLJJ7teBkBVHnvssRw7dqzrZVAR5YlNHnzwwXzta1/rehkAVfiTP/mTPPTQQ10vg8ooT1zk85//fB5//PGulwHQqccee0xxYiDliYG++c1v5vd+7/fy0EMPZXl5OR988EHXSwK4oj744IP86Ec/yvz8fD71qU95qo6hlCeG+vjjj7OwsJC5ubns2rUre/fuTdM0IiLXXfbu3Ztdu3Zlbm4uX//61704nC0pT0B1Lly4kP379+fChQtdLwXgIsoTUJ2jR49mamoqR44c6XopABdRnoDq7NixI03TZMeOHV0vBeAiyhNQlaNHj24qT84+AbVRnoCqlOJU4uwTUBvlCajGkSNHNsrTzMzMRnl69NFHu14awAblCajG1NRUbrrpptx6661pmia7du3KzTff7HMXgaooT0AVTp06lZ07d2ZxcTFJ0jSfjKfFxcXs3Lkzr7/+epfLA9igPAFVKuUJoDamE1Al5QmolekEVEl5AmplOgFVUp6AWplOQJWUJ6BWphNQJeUJqJXpBFRJeQJqZToBVVKegFqZTkCVlCegVqYTUCXlCaiV6QRUSXkCamU6AVVSnoBamU5AlZQnoFamE1Al5QmolekEVEl5AmplOgFVUp6AWplOQJWUJ6BWphNQJeUJqJXpBFRJeQJqZToBVVKegFqZTkCVlCegVqYTUCXlCaiV6QRUSXkCamU6AVVSnoBamU5AlZQnoFamE1Al5QmolekEVEl5AmplOgFVUp6AWplOQJWUJ6BWphNQJeUJqJXpBFRJeQJqZToBVVKegFqZTkCVlCegVqYTUCXlCaiV6QRUSXkCamU6AVVSnoBamU5AlZQnoFamE1Al5QmolekEVEl5AmplOgFVUp6AWplOQJWUJ6BWphNbWl9fz/PPP5+5ubns3r0709PTaZpGROS6yfT0dHbv3p25ubm88MILWV9f73r0UjnliaGOHTuW22+/Pffdd1++853vZGVlJWtra10vC+CyWltby8rKSl599dXMzc3ltttuy9NPP931sqiY8sRAd911Vw4fPpyPPvqo66UAXFXnz5/P4cOHc/fdd3e9FCqlPHGR+++/P0tLS10vA6BTJ0+ezAMPPND1MqiQ8sQmd911l+IE8O9OnjyZe+65p+tlUBnliQ3Hjh3LI4880vUyAKpy6NChHD9+vOtlUBHliSSf/FXd7bff7jVOAH3OnTuXO++801/hsUF5Ikny/PPP57777ut6GQBVOnDgQE6cONH1MqiE8kSSZG5uLq+99lrXywCo0iuvvJL777+/62VQCeWJJMnu3buzsrLS9TIAqnTmzJns2bOn62VQCeWJJMn09LQ3wAQY4uzZs5mZmel6GVRCeSKJzxEDGMWcpLATSGIoAIxiTlLYCSQxFABGMScp7ASSGAoAo5iTFHYCSQwFgFHMSQo7gSSGAsAo5iSFnUASQwFgFHOSwk4giaEAMIo5SWEnkMRQABjFnKSwE0hiKACMYk5S2AkkMRQARjEnKewEkhgKAKOYkxR2AkkMBTZbXl5O0zRpmiYLCwsb319YWNj4/tLS0sb1lpaWLrqN+fn5NE2T1dXVLS/b6jZGrW+SY2q4ba5t5iSFnUASQ4HN2uVpdnZ24/uzs7ObytNWlCeuN+YkhZ1AEkOBzUqB6PV6mwpQ+3uDzjy1z0z1l6dhl/XfRru4DStf4x7T6/U2lb9y31sdozwxjDlJYSeQxFBgs1IgSslpF6VB32v/uzzN1y4l41y2tLSU1dXVTdcr9zVsfaOOGVbStjpGeWIYc5LCTiCJocBm7bLT6/UyPz+/ceZoaWlpYHkql5czOO3istVlW93GsCIz7jGDrpdk7GOgzZyksBNIYiiwWbs8zc/Pbzz9NTs7e1XKU3/aL1pvr2+cY8rrtmZnZzeestvqGOWJYcxJCjuBJIYCm7XLUylL/V8PK0/Ly8tJBpenQZdtVcBGrW+cY8p99Xq9i16bNc7rqaAwJynsBJIYCmzWLk/l9UGl/AwrT5fzNU/lDNGwv9ib5Jj2C8OLrY5RnhjGnKSwE0hiKLBZf9kpf2GXZGh5Sq7MX9uVs1WD1jfuMeWpu0G30X+M8sQw5iSFnUASQwFgFHOSwk4giaEAMIo5SWEnkMRQABjFnKSwE0hiKACMYk5S2AkkMRQARjEnKewEkhgKAKOYkxR2AkkMhdq132upnfb7HC0vL2/6N8NN+niVty/of7+p7Tze5ZhRbwRKfcxJCjuBJIZC7cb9has8jWfSx2hYedoO5enaZU5S2AkkMRRqt9Uv3FFnntpnqtrH93++W3lTyHIbg5Q3zmy/2WX/x7ds57r96xxmnOsM0j5zV96gc9DjNewx6S9Ps7Oz6fV6Ix/vQQWtHNO+r/7HgjqZkxR2AkkMhdpttzz1er2NX8yluLSP6b+NUdofaVIKRfm6ffuTXrf/c+fK9drGuc4wgx6H/sdrq8ekXZ7m5+c37nucx3vYU33DHgvq5b8ThZ1AEkOhdoNe81Q+bmRYeSq/8NtKAdnuU0eDzrKUr/tvc9zrDlrnsM+y2+o6wwz6WbcqT1t9WHC7OLVve9jx7cI3bD2exrt2mJMUdgJJDIXabefMU/9nt/U/RdR/+Tif5Xa1ylO/ca4zybG9Xm/gmbphj0m7PA06OzWsrM7Ozl70lJzydO0yJynsBJIYCrXbbnnq9XqXfPtt12J5GvfM01bHtZ+2az9l6MzTjcWcpLATSGIo1O5SXvPUf/ZkeXk5S0tLm4rVJK95utzlqf+yhYWFgaVvnOsM0+v1LnqNUf/jtdVj0v+C8UleYzbsNU/K07XHnKSwE0hiKNTucv21XfssSHkKqqS/2AxypcpT/2u6Bq1j0HUGPQ7DtF8rNjs7O/DxGvaY9JendjHa6vEe9JgqT9cuc5LCTiCJocD1YZK/wINJmZMUdgJJDAWuD8oTV5I5SWEnkMRQABjFnKSwE0hiKACMYk5S2AkkMRQARjEnKewEkhgKAKOYkxR2AkkMBYBRzEkKO4EkhgLAKOYkhZ1AEkMBYBRzksJOIImhADCKOUlhJ5DEUAAYxZyksBNIYigAjGJOUtgJJDEUAEYxJynsBJIk09PTWVtb63oZAFU6e/ZsZmZmul4GlVCeSJLs3r07KysrXS8DoEpnzpzJnj17ul4GlVCeSJLce++9efXVV7teBkCVXn755Rw8eLDrZVAJ5YkkyQsvvJC5ubmulwFQpX379uXFF1/sehlUQnkiSbK+vp7bbrst58+f73opAFVZW1vLHXfc0fUyqIjyxIbjx4/ny1/+ctfLAKjKoUOH8uyzz3a9DCqiPLHJ3XffnZMnT3a9DIAqLC4u5tOf/nTXy6AyyhMXeeCBBxQo4Ia3uLiYz33uc10vgwopTwx0zz335OGHH865c+e6XgrAVbW2tpZDhw4548RQyhNDfetb38qdd96ZAwcO5JVXXsmZM2dy9uzZrpcFcFmdPXs2Z86cycsvv5x9+/bljjvuyDPPPNP1sqiY8sSW1tfXc+LEiXzmM5/Jnj17MjMzk6ZpRESum8zMzGTPnj05ePCgtyNgLMoTUJ0LFy5k//79uXDhQtdLAbiI8gRU5+jRo5mamsqRI0e6XgrARZQnoDo7duxI0zTZsWNH10sBuIjyBFTl6NGjm8qTs09AbZQnoCqlOJU4+wTURnkCqnHkyJGN8lT+snPHjh159NFHu14awAblCajG1NRUbrrpptx6661pmia7du3KzTffnKmpqa6XBrBBeQKqcOrUqezcuTOLi4tJkqb5ZDwtLi5m586def3117tcHsAG5QmoUilPALUxnYAqKU9ArUwnoErKE1Ar0wmokvIE1Mp0AqqkPAG1Mp2AKilPQK1MJ6BKyhNQK9MJqJLyBNTKdAKqpDwBtTKdgCopT0CtTCegSsoTUCvTCaiS8gTUynQCqqQ8AbUynYAqKU9ArUwnoErKE1Ar0wmokvIE1Mp0AqqkPAG1Mp2AKilPQK1MJ6BKyhNQK9MJqJLyBNTKdAKqpDwBtTKdgCopT0CtTCegSsoTUCvTCaiS8gTUynQCqqQ8AbUynYAqKU9ArUwnoErKE1Ar0wmokvIE1Mp0AqqkPAG1Mp2AKilPQK1MJ6BKyhNQK9OJLa2vr+f555/P3Nxcdu/enenp6TRNIyJy3WR6ejq7d+/O3NxcXnjhhayvr3c9eqmc8sRQx44dy+2335777rsv3/nOd7KyspK1tbWulwVwWa2trWVlZSWvvvpq5ubmctttt+Xpp5/uellUTHlioLvuuiuHDx/ORx991PVSAK6q8+fP5/Dhw7n77ru7XgqVUp64yP3335+lpaWulwHQqZMnT+aBBx7oehlUSHlik7vuuktxAvh3J0+ezD333NP1MqiM8sSGY8eO5ZFHHul6GQBVOXToUI4fP971MqiI8kSST/6q7vbbb/caJ4A+586dy5133umv8NigPJEkef7553Pfffd1vQyAKh04cCAnTpzoehlUQnkiSTI3N5fXXnut62UAVOmVV17J/fff3/UyqITyRJJk9+7dWVlZ6XoZAFU6c+ZM9uzZ0/UyqITyRJJkenraG2ACDHH27NnMzMx0vQwqoTyRxOeIAYxiTlLYCSQxFABGMScp7ASSGAoAo5iTFHYCSQwFgFHMSQo7gSSGAsAo5iSFnUASQwFgFHOSwk4giaEAMIo5SWEnkMRQABjFnKSwE0hiKACMYk5S2AkkMRQARjEnKewEkhgKAKOYkxR2AkkMBYBRzEkKO4EkhgLjWV1dTdM0mZ+fv+L3tby8nKZpsrS0dE3dNtcvc5LCTiCJocB4lCduZOYkhZ1AEkOB8YwqT+XykuXl5STJ/Pz8pj3W6/UGXr66urpxnf6CU74uKdft9XqZnZ3dOK69vmHHKE9shzlJYSeQxFBgPFuVp/7L2oVoaWlpoyy1C9bCwkKSTwpQr9fbdHvtglOOKddvl7H2/Yx7jPLEdpiTFHYCSQwFxrNVeVpYWNh0NqldXtr/LkWqaZrMzs5uFJlScop2wSm3PejM0aDrtdcz6hgYlzlJYSeQxFBgPOOUp1JW+q9bnl4rZ4DK9ftLVzGoFPWnFK5SxMrtt9cz6Bjlie0wJynsBJIYCoxnu2ee2pf3n3Ea9JRdsvWZp36lkPV6vY1CtNUxyhPbYU5S2AkkMRQYz3Zf85RsfvF2KS3l60G3N+j1S+Pc9jjrUZ7YDnOSwk4giaHAePr/mq7/6bP+y/vP+vR/f3Z2duBTdsnov7brP6ac0Rp0G/3HKE9shzlJYSeQxFAAGMWcpLATSGIoAIxiTlLYCSQxFABGMScp7ASSGAoAo5iTFHYCSQwFgFHMSQo7gSSGAsAo5iSFnUASQ4Hhhr09Qfv9l9qfWTfobQe6MmxN5fvD3nQTBjEnKewEkhgKDDdu0aixPA2jPLEd5iSFnUASQ4Hhtioao848DXvDzP7PnStvVlluY5BRx7Qv779s2Jmn9jH9H0wM/cxJCjuBJIYCw223PPV6vY1CsrS0tLHH+gvSVoVp2HXaX5d/l3cXL+8evrq6OrI8lY9uaa8PhrFHKOwEkhgKDDfoNU+lqAwrT6XAtJUP7d3OU2bjFrhidnY2CwsLY7/mydN4jMOcpLATSGIoMNx2zjz1f6Zc/1Nj/ZeP8xlzw44ZtD7liSvBnKSwE0hiKDDcdstTr9e75Nsf55hBBan/LJfyxOVgTlLYCSQxFBjuUl7zVM4OlbNGy8vLWVpa2lSsxnnN01bH9L9+aZLXPClPTMKcpLATSGIoMNzl+mu79lNz8/Pzmy4rx2xVpEYd0768/7L2+gb9TMoT4zAnKewEkhgKXLsUH64Wc5LCTiCJocC1S3niajEnKewEkhgKAKOYkxR2AkkMBYBRzEkKO4EkhgLAKOYkhZ1AEkMBYBRzksJOIImhADCKOUlhJ5DEUAAYxZyksBNIYigAjGJOUtgJJDEUAEYxJynsBJIYCgCjmJMUdgJJDAWAUcxJCjuBJIYCwCjmJIWdQJJkeno6a2trXS8DoEpnz57NzMxM18ugEsoTSZLdu3dnZWWl62UAVOnMmTPZs2dP18ugEsoTSZJ77703r776atfLAKjSyy+/nIMHD3a9DCqhPJEkeeGFFzI3N9f1MgCqtG/fvrz44otdL4NKKE8kSd/5FxUAAAD2SURBVNbX13Pbbbfl/PnzXS8FoCpra2u54447ul4GFVGe2HD8+PF8+ctf7noZAFU5dOhQnn322a6XQUWUJza5++67c/Lkya6XAVCFxcXFfPrTn+56GVRGeeIiDzzwgAIF3PAWFxfzuc99rutlUCHliYHuueeePPzwwzl37lzXSwG4qtbW1nLo0CFnnBhKeWKob33rW7nzzjtz4MCBvPLKKzlz5kzOnj3b9bIALquzZ8/mzJkzefnll7Nv377ccccdeeaZZ7peFhVTntjS+vp6Tpw4kc985jPZs2dPZmZm0jSNiMh1k5mZmezZsycHDx70dgSM5f8DO0wChz6oyRoAAAAASUVORK5CYII=" alt="" /></p>
+
+<p>Fig 1. Petit FATfs usage.</p>
+
+<p>  
+1)Low level functionality:</p>
+
+<p>This level handles SPI initialization and SPI read/write byte operations. For Atmega16, refer to datasheet [2] to understand how SPI works. SPI clock frequency needs to be set as per the requirement. One such template file can is available for Atmega16 [3] .You can also find assembly code implementation to handle SPI from PetitFAT sample projects in resource section.</p>
+
+<p> </p>
+
+<p>2) Middle level</p>
+
+<p>This level handles disk I/O functionality and abstracts MMC/SD commands. Specifically, it initializes SDC and provides API for card sector modification. More information on MMC/SDC usage can be found on the project website [4]. SPI command set provides set of available commands, while a specific SPI response is received by MCU on issuing a SPI command to SDC. These responses are useful in debug process and can be monitored using LCD module. </p>
+
+<p>The whole process is summarized in Fig 2. and is handled by disk_initialize function.To debug card initialization, ocr variable value can be checked using LCD screen after getting command response in disk_initialize function.You can find the disk I/O functions in mmc.c (or avr_mmcp.c) and it’s configuation in diskio.h .</p>
+
+<p><img src="http://elm-chan.org/docs/mmc/i/sdinit.png" alt="http://elm-chan.org/docs/mmc/i/sdinit.png" /></p>
+
+<p>Fig 2. SDC Intialization (source: from [4])</p>
+
+<p>3) High level functionality</p>
+
+<p>This layer uses the disk I/O layer API to provide Petit FATfs API for application interface. You can find the functions in pff.c and definitions in pff.h . It is possible to customize API functions as per requirements using file pffconf.h. Include pff files in your main.c and use the API application interface for handling file management on SD Card.</p>
+
+<p>This completes the three part tutorial on interfacing and handling SD Card for MCU like Atmega16. It is advised to use an SDC with storage capacity &lt;2 GB for initial testing. Hope you find it useful!</p>
+
+<p>References:</p>
+
+<p>[1] https://en.wikipedia.org/wiki/File_Allocation_Table </p>
+
+<p>[2] ww1.microchip.com/downloads/en/DeviceDoc/doc2466.pdf</p>
+
+<p>[3] https://github.com/abhinav333/BRAILLE_READER/blob/master/spi.h</p>
+
+<p>[4] http://elm-chan.org/docs/mmc/mmc_e.html</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-08-28T00:00:00-04:00">August 28, 2020</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/embedded%20systems/2014/11/12/sd-card-2.html" class="pagination--pager" title="Interfacing SD with AVR: Part 2
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+<!--
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+-->
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Abhinav Kulkarni. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

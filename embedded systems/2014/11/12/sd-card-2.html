@@ -1,0 +1,417 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Interfacing SD with AVR: Part 2 - Abhinav Kulkarni</title>
+<meta name="description" content="In this part of the tutorial, we will see how SD-Card is wired with ATMEGA16. SD-Card requires a 3.3 V supply, so we will first make a circuit for the same purpose. You can use  voltage regulators like LM117(fixed 3.3 V output) or variable one like the popular LM317. There is no need to heat sink these IC’s for present application, as the power dissipation is quite small. I prefer using LM317 (TO-223 pacakage) ;It can be easily soldered, is easily available and the circuit needs only a few supplementary passive components.Go ahead with the following circuit.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Abhinav Kulkarni">
+<meta property="og:title" content="Interfacing SD with AVR: Part 2">
+<meta property="og:url" content="http://localhost:4000/embedded%20systems/2014/11/12/sd-card-2.html">
+
+
+  <meta property="og:description" content="In this part of the tutorial, we will see how SD-Card is wired with ATMEGA16. SD-Card requires a 3.3 V supply, so we will first make a circuit for the same purpose. You can use  voltage regulators like LM117(fixed 3.3 V output) or variable one like the popular LM317. There is no need to heat sink these IC’s for present application, as the power dissipation is quite small. I prefer using LM317 (TO-223 pacakage) ;It can be easily soldered, is easily available and the circuit needs only a few supplementary passive components.Go ahead with the following circuit.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2014-11-12T00:00:00-05:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/embedded%20systems/2014/11/12/sd-card-2.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Abhinav Kulkarni Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Abhinav Kulkarni
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/publications/">Publications</a>
+            </li><li class="masthead__menu-item">
+              <a href="/resume/">Resume</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/resources/">Resources</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/oogway.jpg" alt="" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name"></h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Curious researcher. Contributing towards science.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Trois-Rivières, QC, Canada</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/abhinav333" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Interfacing SD with AVR: Part 2">
+    <meta itemprop="description" content="In this part of the tutorial, we will see how SD-Card is wired with ATMEGA16. SD-Card requires a 3.3 V supply, so we will first make a circuit for the same purpose. You can use  voltage regulators like LM117(fixed 3.3 V output) or variable one like the popular LM317. There is no need to heat sink these IC’s for present application, as the power dissipation is quite small. I prefer using LM317 (TO-223 pacakage) ;It can be easily soldered, is easily available and the circuit needs only a few supplementary passive components.Go ahead with the following circuit.">
+    <meta itemprop="datePublished" content="2014-11-12T00:00:00-05:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Interfacing SD with AVR: Part 2
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2014-11-12T00:00:00-05:00">November 12, 2014</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>In this part of the tutorial, we will see how SD-Card is wired with ATMEGA16. SD-Card requires a 3.3 V supply, so we will first make a circuit for the same purpose. You can use  voltage regulators like LM117(fixed 3.3 V output) or variable one like the popular LM317. There is no need to heat sink these IC’s for present application, as the power dissipation is quite small. I prefer using LM317 (TO-223 pacakage) ;It can be easily soldered, is easily available and the circuit needs only a few supplementary passive components.Go ahead with the following circuit.</p>
+
+<p><a href="http://4.bp.blogspot.com/-ZGYNqD9oejg/VInXKMh0DWI/AAAAAAAAAF0/BQkbgk6eulo/s1600/LM317-typical-adjustable-regulator-ckt.png"><img src="http://4.bp.blogspot.com/-ZGYNqD9oejg/VInXKMh0DWI/AAAAAAAAAF0/BQkbgk6eulo/s1600/LM317-typical-adjustable-regulator-ckt.png" alt="" /></a></p>
+
+<p> Tested with R2=360 Ohm and R1=240 Ohm.</p>
+
+<p>If you get an output voltage with about deviation under 200 milivolts from 3.3 V, its perfect! Else, try tweaking the values of the resistors a little bit until you get that. Well, we now constructed a  power supply for the card. The next step is to build a logic converter circuit to interface AVR with SD Card. Its not always necessary to have an interface circuit, however it’s essential if the AVR is operating at a voltage other than 3.3 V. When not working with same voltage, the SD Card needs a logic level converter to convey its 3.3 V signal to  AVR and vice versa. There are a couple of methods to build one, however we will be going with voltage divider method, as I think it’s far simpler and works almost all of the time. However, you can explore other methods like the pull resistor method or you would be lucky to get  a readymade IC for the purpose.</p>
+
+<p>Voltage divider method:</p>
+
+<p><a href="http://3.bp.blogspot.com/-6EYS98w0DM8/VInXTcMeVwI/AAAAAAAAAGA/gwmLUi8Mh7E/s1600/interface.jpg"><img src="http://3.bp.blogspot.com/-6EYS98w0DM8/VInXTcMeVwI/AAAAAAAAAGA/gwmLUi8Mh7E/s1600/interface.jpg" alt="" /></a></p>
+
+<p>With Vs as the primary supply voltage to system, calculation of R2 and R1 is pretty simple:</p>
+
+<p><a href="http://3.bp.blogspot.com/-WdVOgJmvsiU/VInXJOpxpFI/AAAAAAAAAFw/JDK0tNva_bE/s1600/CodeCogsEqn.gif"><img src="http://3.bp.blogspot.com/-WdVOgJmvsiU/VInXJOpxpFI/AAAAAAAAAFw/JDK0tNva_bE/s1600/CodeCogsEqn.gif" alt="" /></a></p>
+
+<p><a href="http://2.bp.blogspot.com/-OR80n4o9SeQ/VInXId75K8I/AAAAAAAAAFo/vIA6g5eI06Q/s1600/CodeCogsEqn%2B(1).gif"><img src="http://2.bp.blogspot.com/-OR80n4o9SeQ/VInXId75K8I/AAAAAAAAAFo/vIA6g5eI06Q/s1600/CodeCogsEqn%2B(1).gif" alt="" /></a></p>
+
+<p><a href="http://1.bp.blogspot.com/-cCInlTvLRK4/VInXILUhs2I/AAAAAAAAAFg/q-mEIbwVvk4/s1600/CodeCogsEqn%2B(2).gif"><img src="http://1.bp.blogspot.com/-cCInlTvLRK4/VInXILUhs2I/AAAAAAAAAFg/q-mEIbwVvk4/s1600/CodeCogsEqn%2B(2).gif" alt="" /></a></p>
+
+<p>Now lets say your microcontroller is working on 5 V, then ratio R2 comes out to be twice of R1. </p>
+
+<p><a href="http://4.bp.blogspot.com/-AMaNu2Hf9XY/VInXIexvVsI/AAAAAAAAAFs/AVVNXhcn-G8/s1600/CodeCogsEqn%2B(3).gif"><img src="http://4.bp.blogspot.com/-AMaNu2Hf9XY/VInXIexvVsI/AAAAAAAAAFs/AVVNXhcn-G8/s1600/CodeCogsEqn%2B(3).gif" alt="" /></a></p>
+
+<p>Try R2 and R1 as per your convenience, in range of 1 KOhm - 50 KOhm. I had successfully tested this circuit with R2 = 2.2 KOhm , R1 = 1.1 KOhm.</p>
+
+<p>Having done that, power the SD Card with 3.3 V power supply,  which we had made using LM317. You can even design both the circuits(supply and logic converter) on same board, it will be actually  simple that way. </p>
+
+<p>Usually, we don’t get 9 Pin MMC card in market nowadays as they have become obsolete. However, there are a variety of microSD cards available, which are compatible with cellphones, mp3 players and other such sort of devices. So, we can comfortably use such a microSD card with adapter(the black one) to serve our purpose .This  adapter needs  another card socket, which requires great care in soldering. Also, its SMD soldering pads are very fine and delicate. </p>
+
+<p><a href="http://2.bp.blogspot.com/-iNkwGUAKXic/VIndu-2cK1I/AAAAAAAAAGM/O1teWl5GqdA/s1600/2gb-tf-and-adapter.jpg"><img src="http://2.bp.blogspot.com/-iNkwGUAKXic/VIndu-2cK1I/AAAAAAAAAGM/O1teWl5GqdA/s1600/2gb-tf-and-adapter.jpg" alt="" /></a></p>
+
+<p>microSD with Adapter</p>
+
+<p><a href="http://4.bp.blogspot.com/-tcwWbrfsOC0/VIndwGQ4x2I/AAAAAAAAAGU/CiJjsTTxKpI/s1600/SD.jpg"><img src="http://4.bp.blogspot.com/-tcwWbrfsOC0/VIndwGQ4x2I/AAAAAAAAAGU/CiJjsTTxKpI/s1600/SD.jpg" alt="" /></a></p>
+
+<p>SD Card Adapter Socket</p>
+
+<p>Well here’s a trick if dont’t want to mess up with SMD connector. It could save your time and efforts(and frustration too!). Solder a 9 X 1 male  berg strip to pinouts of adapter as shown in the figure below. Solder a 9 X 1 female berg strip as you pin out on the interface circuit. This method allows easy plug-in and out of adapter without damaging it.</p>
+
+<p><a href="http://1.bp.blogspot.com/-j3aXOAanOtc/VIngt84gS1I/AAAAAAAAAGo/weFwAZ0ptU4/s1600/20141211-0001.jpeg"><img src="http://1.bp.blogspot.com/-j3aXOAanOtc/VIngt84gS1I/AAAAAAAAAGo/weFwAZ0ptU4/s1600/20141211-0001.jpeg" alt="" /></a></p>
+
+<p><a href="http://1.bp.blogspot.com/-nzfO3KfXAFk/VIngruA24_I/AAAAAAAAAGg/TPKV2EUHdAs/s1600/20141211-0002.jpeg"><img src="http://1.bp.blogspot.com/-nzfO3KfXAFk/VIngruA24_I/AAAAAAAAAGg/TPKV2EUHdAs/s1600/20141211-0002.jpeg" alt="" /></a></p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2014-11-12T00:00:00-05:00">November 12, 2014</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/embedded%20systems/2014/09/30/sd-card-1.html" class="pagination--pager" title="Interfacing SD with AVR: Part 1
+">Previous</a>
+    
+    
+      <a href="/embedded%20systems/2020/08/28/sd-card-3.html" class="pagination--pager" title="Interfacing SD with AVR: Part 3
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+<!--
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+-->
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Abhinav Kulkarni. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

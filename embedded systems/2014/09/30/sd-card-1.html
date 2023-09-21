@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Interfacing SD with AVR: Part 1 - Abhinav Kulkarni</title>
-<meta name="description" content="This is the first part in the tutorial series which will guide you to use a SD Card for your projects with AVR ATMEGA. Secure Disk Card (SDC) is a versatile and compact storage peripheral. It is widely used for file storage, owing to its small size and compatibly with almost all of the digital devices. Application of SD-CARD can be extended to overcome data storage limits in embedded systems. In this tutorial, we will be seeing how to interface SD-Card with AVR family microcontroller .  We will be using the popular ATMEGA 16  for demonstration, but the method can be extended to any 8 bit MCU. However, as a prerequisite , I urge you to brush up your C programming and go through datasheet of ATMEGA16 (particularly the SPI part).   ">
+<meta name="description" content="This is the first part of a tutorial series that will guide you in using an SD Card for your AVR ATMEGA projects. A Secure Digital Card (SDC) is a versatile and compact storage peripheral widely used for file storage due to its small size and compatibility with nearly all digital devices. Its application can be extended to overcome data storage limits in embedded systems. In this tutorial, we will demonstrate how to interface an SD Card with an AVR family microcontroller. We will use the popular ATMEGA 16 for demonstration, but the method can be extended to any 8-bit MCU. As a prerequisite, I strongly recommend refreshing your C programming skills and going through the datasheet of ATMEGA16, especially the SPI part.">
 
 
 
@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://localhost:4000/embedded%20systems/2014/09/30/sd-card-1.html">
 
 
-  <meta property="og:description" content="This is the first part in the tutorial series which will guide you to use a SD Card for your projects with AVR ATMEGA. Secure Disk Card (SDC) is a versatile and compact storage peripheral. It is widely used for file storage, owing to its small size and compatibly with almost all of the digital devices. Application of SD-CARD can be extended to overcome data storage limits in embedded systems. In this tutorial, we will be seeing how to interface SD-Card with AVR family microcontroller .  We will be using the popular ATMEGA 16  for demonstration, but the method can be extended to any 8 bit MCU. However, as a prerequisite , I urge you to brush up your C programming and go through datasheet of ATMEGA16 (particularly the SPI part).   ">
+  <meta property="og:description" content="This is the first part of a tutorial series that will guide you in using an SD Card for your AVR ATMEGA projects. A Secure Digital Card (SDC) is a versatile and compact storage peripheral widely used for file storage due to its small size and compatibility with nearly all digital devices. Its application can be extended to overcome data storage limits in embedded systems. In this tutorial, we will demonstrate how to interface an SD Card with an AVR family microcontroller. We will use the popular ATMEGA 16 for demonstration, but the method can be extended to any 8-bit MCU. As a prerequisite, I strongly recommend refreshing your C programming skills and going through the datasheet of ATMEGA16, especially the SPI part.">
 
 
 
@@ -246,7 +246,7 @@
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Interfacing SD with AVR: Part 1">
-    <meta itemprop="description" content="This is the first part in the tutorial series which will guide you to use a SD Card for your projects with AVR ATMEGA. Secure Disk Card (SDC) is a versatile and compact storage peripheral. It is widely used for file storage, owing to its small size and compatibly with almost all of the digital devices. Application of SD-CARD can be extended to overcome data storage limits in embedded systems. In this tutorial, we will be seeing how to interface SD-Card with AVR family microcontroller .  We will be using the popular ATMEGA 16  for demonstration, but the method can be extended to any 8 bit MCU. However, as a prerequisite , I urge you to brush up your C programming and go through datasheet of ATMEGA16 (particularly the SPI part).   ">
+    <meta itemprop="description" content="This is the first part of a tutorial series that will guide you in using an SD Card for your AVR ATMEGA projects. A Secure Digital Card (SDC) is a versatile and compact storage peripheral widely used for file storage due to its small size and compatibility with nearly all digital devices. Its application can be extended to overcome data storage limits in embedded systems. In this tutorial, we will demonstrate how to interface an SD Card with an AVR family microcontroller. We will use the popular ATMEGA 16 for demonstration, but the method can be extended to any 8-bit MCU. As a prerequisite, I strongly recommend refreshing your C programming skills and going through the datasheet of ATMEGA16, especially the SPI part.">
     <meta itemprop="datePublished" content="2014-09-30T00:00:00-04:00">
     
 
@@ -288,33 +288,29 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>This is the first part in the tutorial series which will guide you to use a SD Card for your projects with AVR ATMEGA. Secure Disk Card (SDC) is a versatile and compact storage peripheral. It is widely used for file storage, owing to its small size and compatibly with almost all of the digital devices. Application of SD-CARD can be extended to overcome data storage limits in embedded systems. In this tutorial, we will be seeing how to interface SD-Card with AVR family microcontroller .  We will be using the popular ATMEGA 16  for demonstration, but the method can be extended to any 8 bit MCU. However, as a prerequisite , I urge you to brush up your C programming and go through datasheet of ATMEGA16 (particularly the SPI part).   </p>
+        <p>This is the first part of a tutorial series that will guide you in using an SD Card for your AVR ATMEGA projects. A Secure Digital Card (SDC) is a versatile and compact storage peripheral widely used for file storage due to its small size and compatibility with nearly all digital devices. Its application can be extended to overcome data storage limits in embedded systems. In this tutorial, we will demonstrate how to interface an SD Card with an AVR family microcontroller. We will use the popular ATMEGA 16 for demonstration, but the method can be extended to any 8-bit MCU. As a prerequisite, I strongly recommend refreshing your C programming skills and going through the datasheet of ATMEGA16, especially the SPI part.</p>
 
-<p>So, let’s have a quick review of the basics of SD card. SDC is the upgraded standard of Multimedia Card with improved compatibility with numerous digital devices and has remarkably higher storage capacity. It contains array of flash memory and  inbuilt microcontroller to handle data requests. SDC supports two protocols; SD and SPI (Serial Peripheral Interface). We will be using the SPI protocol, as it easy and provides  speed about 100 KHz-500 Kz, which is sufficient for various application on ATMEGA16.</p>
+<p>Let’s begin with a quick review of the basics of an SD card. An SDC is an upgraded standard of the Multimedia Card (MMC) with improved compatibility with numerous digital devices and significantly higher storage capacity. It contains an array of flash memory and an inbuilt microcontroller to handle data requests. SDC supports two protocols: SD and SPI (Serial Peripheral Interface). We will use the SPI protocol as it is easy and provides a speed of about 100 KHz-500 KHz, which is sufficient for various applications on ATMEGA16.</p>
 
-<p>Although older versions of Multimedia Cards( MMC)  are out of fashion, recent SD-Card follows the same pin connections for SPI . microSD is widely used today due to its convenient design which suits most of the digital devices and can be easily adopted for SD interface using a suitable adapter. As we will be using SPI mode, we have to be only concerned about four SPI and two power supply  pin, no matter which type of card is used.</p>
+<p>While older versions of Multimedia Cards (MMC) are no longer in fashion, recent SD Cards follow the same pin connections for SPI. microSD cards are widely used today due to their convenient design, which suits most digital devices and can be easily adapted for an SD interface using a suitable adapter. Since we will be using SPI mode, we only need to be concerned about four SPI and two power supply pins, regardless of the type of card used.</p>
 
-<p><img src="http://2.bp.blogspot.com/-gBVaXGsMyHw/VC2Qz6S_kCI/AAAAAAAAAD0/Ch2N8fR4Png/s1600/MMC-SD-miniSD-microSD-Color-Numbers-Names.gif" alt="" /></p>
+<p><img src="http://2.bp.blogspot.com/-gBVaXGsMyHw/VC2Qz6S_kCI/AAAAAAAAAD0/Ch2N8fR4Png/s1600/MMC-SD-miniSD-microSD-Color-Numbers-Names.gif" alt="SD Card Pinout" /></p>
 
-<p><img src="http://1.bp.blogspot.com/-ugJUG4TRjK4/VC2Q890YiZI/AAAAAAAAAD4/te-OPZGysuE/s1600/sd-card-pinout.png" alt="" /></p>
+<p><img src="http://1.bp.blogspot.com/-ugJUG4TRjK4/VC2Q890YiZI/AAAAAAAAAD4/te-OPZGysuE/s1600/sd-card-pinout.png" alt="microSD Pinout" /></p>
 
-<p>Diagram shows pinouts of microSD, SD and MMC card. MicroSD can be easily turned into SD with Adapter.</p>
+<h3 id="spi-mode">SPI Mode</h3>
 
-<h3 id="spi-mode"><strong>SPI Mode</strong></h3>
+<p>Serial Peripheral Interface (SPI) enables synchronous communication between two devices supporting this protocol with efficient speed. ATMEGA16 (acting as the master) communicates with the microcontroller in the SDC (acting as the slave) using the SPI protocol. This mode is characterized by the following pins (refer to the ATMEGA16 datasheet):</p>
 
-<p>Serial Peripheral Interface (SPI) enables synchronous communication between two devices supporting this protocol with efficient speed. ATMEGA16 (acts as master) communicates with microcontroller in SDC (acts as slave) using SPI protocol. This mode is characterized by MISO, MOSI, CS and SCLK (refer datasheet ATMEGA16 ) :</p>
+<ul>
+  <li><strong>Master In Slave Out (MISO)</strong>: Data transferred from slave to master device.</li>
+  <li><strong>Master Out Slave In (MOSI)</strong>: Data transferred from master to slave device.</li>
+  <li><strong>CS (Chip Select)</strong>: Active Low chip selection of the slave by the master.</li>
+  <li><strong>SCLK (Clock Line)</strong>: Clock Line provided by the master to the slave for maintaining synchronization between the two.</li>
+</ul>
 
-<p><strong>Master In Slave Out (MISO)</strong>:  Data  transferred from slave to master device.</p>
+<p>SDC operates on 3.3V logic and requires the same supply voltage. While ATMEGA16 can operate on 3.3V, in many applications, it is powered by a 5V DC supply. Therefore, there is a need for logic conversion circuitry between the two peripherals. Several methods are available for building such a circuit; you can search the internet for more details. However, I suggest using a simple resistor network circuit, as it has been practically tested.</p>
 
-<p><strong>Master Out Slave In (MOSI)</strong>:  Data transferred from master to slave device.</p>
-
-<p><strong>CS</strong>: Active Low chip selection of slave by master.</p>
-
-<p><strong>SCLK</strong>: Clock Line provided by master to slave for maintaining synchronization between the two.</p>
-
-<p>SDC works on 3.3V logic and also needs same supply voltage. ATMEGA16 can operate on 3.3V and in such case we can directly connect both the peripherals. But in most of the applications, ATMEGA16 is powered by 5V DC supply. So there is a need of logic conversion circuitry in between the two peripherals . There are several methods of building one, you can search on internet. However,I personally would suggest  the simple resistor network circuit, being practically tested the same.  <br />
-                  
-Please visit <a href="http://maxembedded.com/2013/11/the-spi-of-the-avr/">maxembedded</a> if you are more curious learn more about SPI.</p>
 
         
       </section>

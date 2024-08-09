@@ -12,7 +12,7 @@ var store = [{
         "teaser": null
       },{
         "title": "Interfacing SD with MCU: Part 3",
-        "excerpt":"Data on storage media is organized using a filesystem. A computer’s operating system can access the contents of storage media via the filesystem. In this project, we will use the Fat Allocation Table (FAT) to format our SD Card. You can find additional information on the FAT file system online...","categories": ["embedded systems"],
+        "excerpt":"Data on storage media is organized using a filesystem. A computer’s operating system can access the contents of storage media via the filesystem. In this project, we will use the Fat Allocation Table (FAT) to format our SD Card. You can find additional information on the FAT file system. To...","categories": ["embedded systems"],
         "tags": ["sd,","mcu"],
         "url": "/embedded%20systems/2020/08/28/sd-card-3.html",
         "teaser": null

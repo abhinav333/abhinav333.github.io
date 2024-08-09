@@ -9,19 +9,19 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Interfacing SD with MCU: Part 3 - Abhinav Kulkarni</title>
-<meta name="description" content="Data on storage media is organized using a filesystem. A computer’s operating system can access the contents of storage media via the filesystem. In this project, we will use the Fat Allocation Table (FAT) to format our SD Card. You can find additional information on the FAT file system online [^1^].">
+<!-- begin _includes/seo.html --><title>Interfacing SD with MCU: Part 3 - Credentials</title>
+<meta name="description" content="Data on storage media is organized using a filesystem. A computer’s operating system can access the contents of storage media via the filesystem. In this project, we will use the Fat Allocation Table (FAT) to format our SD Card. You can find additional information on the FAT file system.">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
-<meta property="og:site_name" content="Abhinav Kulkarni">
+<meta property="og:site_name" content="Credentials">
 <meta property="og:title" content="Interfacing SD with MCU: Part 3">
 <meta property="og:url" content="http://localhost:4000/embedded%20systems/2020/08/28/sd-card-3.html">
 
 
-  <meta property="og:description" content="Data on storage media is organized using a filesystem. A computer’s operating system can access the contents of storage media via the filesystem. In this project, we will use the Fat Allocation Table (FAT) to format our SD Card. You can find additional information on the FAT file system online [^1^].">
+  <meta property="og:description" content="Data on storage media is organized using a filesystem. A computer’s operating system can access the contents of storage media via the filesystem. In this project, we will use the Fat Allocation Table (FAT) to format our SD Card. You can find additional information on the FAT file system.">
 
 
 
@@ -62,7 +62,7 @@
 
 
 
-  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Abhinav Kulkarni Feed">
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Credentials Feed">
 
 
 <!-- https://t.co/dKP3o1e -->
@@ -108,7 +108,7 @@
       <nav id="site-nav" class="greedy-nav">
         
         <a class="site-title" href="/">
-          Abhinav Kulkarni
+          Credentials
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
@@ -137,116 +137,11 @@
 
 <div id="main" role="main">
   
-  <div class="sidebar sticky">
-  
-
-
-<div itemscope itemtype="https://schema.org/Person">
-
-  
-    <div class="author__avatar">
-      
-        <img src="/assets/images/photo.jpg" alt="" itemprop="image">
-      
-    </div>
-  
-
-  <div class="author__content">
-    
-      <h3 class="author__name" itemprop="name"></h3>
-    
-    
-      <div class="author__bio" itemprop="description">
-        <p>Researcher and engineer</p>
-
-      </div>
-    
-  </div>
-
-  <div class="author__urls-wrapper">
-    <button class="btn btn--inverse">Follow</button>
-    <ul class="author__urls social-icons">
-      
-        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
-          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Trois-Rivières, QC, Canada</span>
-        </li>
-      
-
-      
-        
-          
-            <li><a href="https://github.com/abhinav333" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
-          
-        
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      <!--
-  <li>
-    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
-      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
-    </a>
-  </li>
--->
-    </ul>
-  </div>
-</div>
-
-  
-  </div>
-
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Interfacing SD with MCU: Part 3">
-    <meta itemprop="description" content="Data on storage media is organized using a filesystem. A computer’s operating system can access the contents of storage media via the filesystem. In this project, we will use the Fat Allocation Table (FAT) to format our SD Card. You can find additional information on the FAT file system online [^1^].">
+    <meta itemprop="description" content="Data on storage media is organized using a filesystem. A computer’s operating system can access the contents of storage media via the filesystem. In this project, we will use the Fat Allocation Table (FAT) to format our SD Card. You can find additional information on the FAT file system.">
     <meta itemprop="datePublished" content="2020-08-28T00:00:00-04:00">
     
 
@@ -288,7 +183,7 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>Data on storage media is organized using a filesystem. A computer’s operating system can access the contents of storage media via the filesystem. In this project, we will use the Fat Allocation Table (FAT) to format our SD Card. You can find additional information on the FAT file system online [^1^].</p>
+        <p>Data on storage media is organized using a filesystem. A computer’s operating system can access the contents of storage media via the filesystem. In this project, we will use the Fat Allocation Table (FAT) to format our SD Card. You can find additional information on the <a href="https://en.wikipedia.org/wiki/File_Allocation_Table">FAT file system</a>.</p>
 
 <p>To access the contents on the Secure Digital Card (SDC) with the FAT file system on a microcontroller (MCU), we need to use an external C library called FATFs. This library abstracts low-level commands for handling SDC transactions. However, for a small 8-bit MCU like the Atmega16, we can use Petit FATFs, which is a variant of FATFs with a smaller code footprint and fewer functionalities.</p>
 
@@ -306,25 +201,19 @@
 
 <h3 id="1-low-level-functionality">1) Low-Level Functionality</h3>
 
-<p>This level handles SPI initialization and SPI read/write byte operations. To understand how SPI works on the Atmega16, refer to the datasheet [^2^]. The SPI clock frequency needs to be set according to the requirements. You can find a template file for Atmega16 [^3^], and assembly code implementations to handle SPI in PetitFAT sample projects in the resource section.</p>
+<p>This level handles SPI initialization and SPI read/write byte operations. To understand how SPI works on the Atmega16, refer to the <a href="https://ww1.microchip.com/downloads/en/DeviceDoc/doc2466.pdf">datasheet</a>. The SPI clock frequency needs to be set according to the requirements. You can find a template file for <a href="https://github.com/abhinav333/BRAILLE_READER/blob/master/spi.h">Atmega16</a>, and assembly code implementations to handle SPI in PetitFAT sample projects in the resource section.</p>
 
 <h3 id="2-middle-level">2) Middle Level</h3>
 
-<p>This level handles disk I/O functionality and abstracts MMC/SD commands. Specifically, it initializes the SDC and provides an API for card sector modification. More information on MMC/SDC usage can be found on the project website [^4^]. The SPI command set provides a set of available commands, while a specific SPI response is received by the MCU upon issuing an SPI command to the SDC. These responses are useful in the debugging process and can be monitored using an LCD module.</p>
+<p>This level handles disk I/O functionality and abstracts MMC/SD commands. Specifically, it initializes the SDC and provides an API for card sector modification. More information on MMC/SDC usage can be found on the <a href="http://elm-chan.org/docs/mmc/mmc_e.html">project website</a>. The SPI command set provides a set of available commands, while a specific SPI response is received by the MCU upon issuing an SPI command to the SDC. These responses are useful in the debugging process and can be monitored using an LCD module.</p>
 
-<p>The whole process is summarized in Fig 2. and is handled by the <code class="language-plaintext highlighter-rouge">disk_initialize</code> function. To debug card initialization, you can check the <code class="language-plaintext highlighter-rouge">ocr</code> variable value using an LCD screen after getting a command response in the <code class="language-plaintext highlighter-rouge">disk_initialize</code> function. You can find the disk I/O functions in <code class="language-plaintext highlighter-rouge">mmc.c</code> (or <code class="language-plaintext highlighter-rouge">avr_mmcp.c</code>) and its configuration in <code class="language-plaintext highlighter-rouge">diskio.h</code>.</p>
-
-<p><img src="http://elm-chan.org/docs/mmc/i/sdinit.png" alt="SDC Initialization" /></p>
-
-<p><strong>Fig 2. SDC Initialization (source: from [^4^])</strong></p>
+<p>To debug card initialization, you can check the <code class="language-plaintext highlighter-rouge">ocr</code> variable value using an LCD screen after getting a command response in the <code class="language-plaintext highlighter-rouge">disk_initialize</code> function. You can find the disk I/O functions in <code class="language-plaintext highlighter-rouge">mmc.c</code> (or <code class="language-plaintext highlighter-rouge">avr_mmcp.c</code>) and its configuration in <code class="language-plaintext highlighter-rouge">diskio.h</code>.</p>
 
 <h3 id="3-high-level-functionality">3) High-Level Functionality</h3>
 
 <p>This layer uses the disk I/O layer API to provide the Petit FATfs API for the application interface. You can find the functions in <code class="language-plaintext highlighter-rouge">pff.c</code> and definitions in <code class="language-plaintext highlighter-rouge">pff.h</code>. It is possible to customize API functions as per requirements using the file <code class="language-plaintext highlighter-rouge">pffconf.h</code>. Include <code class="language-plaintext highlighter-rouge">pff</code> files in your <code class="language-plaintext highlighter-rouge">main.c</code> and use the API application interface for handling file management on the SD Card.</p>
 
 <p>This completes the three-part tutorial on interfacing and handling an SD Card for MCUs like Atmega16. It is advised to use an SDC with a storage capacity of less than 2 GB for initial testing. Hope you find it useful!</p>
-
-<p><strong>References:</strong></p>
 
 
         
@@ -387,7 +276,7 @@
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2024 Abhinav Kulkarni. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2024 Credentials. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

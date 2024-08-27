@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Portfolio & Blog">
 <meta property="og:title" content="Interfacing SD with MCU: Part 3">
-<meta property="og:url" content="http://localhost:4000/embedded%20systems/2020/08/28/sd-card-3.html">
+<meta property="og:url" content="/embedded%20systems/2020/08/28/sd-card-3.html">
 
 
   <meta property="og:description" content="Data on storage media is organized using a filesystem. A computer’s operating system can access the contents of storage media via the filesystem. In this project, we will use the Fat Allocation Table (FAT) to format our SD Card. You can find additional information on the FAT file system.">
@@ -36,7 +36,7 @@
 
 
 
-<link rel="canonical" href="http://localhost:4000/embedded%20systems/2020/08/28/sd-card-3.html">
+<link rel="canonical" href="/embedded%20systems/2020/08/28/sd-card-3.html">
 
 
 
@@ -47,7 +47,7 @@
     
       "@type": "Person",
       "name": null,
-      "url": "http://localhost:4000/"
+      "url": "/"
     
   }
 </script>
@@ -211,7 +211,7 @@
 
 <h3 id="3-high-level-functionality">3) High-Level Functionality</h3>
 
-<p>This layer uses the disk I/O layer API to provide the Petit FATfs API for the application interface. You can find the functions in <code class="language-plaintext highlighter-rouge">pff.c</code> and definitions in <code class="language-plaintext highlighter-rouge">pff.h</code>. It is possible to customize API functions as per requirements using the file <code class="language-plaintext highlighter-rouge">pffconf.h</code>. Include <code class="language-plaintext highlighter-rouge">pff</code> files in your <code class="language-plaintext highlighter-rouge">main.c</code> and use the API application interface for handling file management on the SD Card.</p>
+<p>This layer uses the disk I/O layer API to provide the Petit FATFs API for the application interface. You can find the functions in <code class="language-plaintext highlighter-rouge">pff.c</code> and definitions in <code class="language-plaintext highlighter-rouge">pff.h</code>. It is possible to customize API functions as per requirements using the file <code class="language-plaintext highlighter-rouge">pffconf.h</code>. Include these three files in your <code class="language-plaintext highlighter-rouge">main.c</code> and use the API application interface for handling file management on the SD Card.</p>
 
 <p>This completes the three-part tutorial on interfacing and handling an SD Card for MCUs like Atmega16. It is advised to use an SDC with a storage capacity of less than 2 GB for initial testing. Hope you find it useful!</p>
 
